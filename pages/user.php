@@ -18,7 +18,7 @@ $username = "Ivan";
     </title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="/assets/themes.css">
+    <link rel="stylesheet" href="/public/assets/themes.css">
 </head>
 
 <body class="flex flex-col min-h-screen">
@@ -33,7 +33,7 @@ $username = "Ivan";
         import {
             setToggler,
             loadTheme
-        } from "/assets/theme.js";
+        } from "/public/assets/theme.js";
         loadTheme();
         setToggler();
     </script>

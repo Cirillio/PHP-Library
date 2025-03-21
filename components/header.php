@@ -37,15 +37,14 @@
                         Профиль
                     </a>
                 </li>
-                <li><a>Настройки</a></li>
                 <li><a>Выход</a></li>
             </ul>
         </div>
     </div>
     <div class="flex  px-20 py-6 items-baseline">
         <?php include "Logo.php"; ?>
-        <ul class="flex mx-auto gap-40 text-lg">
-            <li><a href="">Главная</a></li>
+        <ul class="flex ml-auto gap-40 text-lg">
+            <li><a href="/">Главная</a></li>
             <li><a href="">Новое</a></li>
             <li><a href="">Авторы</a></li>
         </ul>

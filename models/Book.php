@@ -2,16 +2,16 @@
 
 namespace models;
 
-class BookCard
+class Book
 {
     public $id;
     public $title;
     public $genre;
     public $year;
+    public $description;
     public $price;
     public $cover_image;
-    public $author_name;
-
+    public $author_id; // Только ID автора
 
     public function __construct($data)
     {
@@ -19,9 +19,10 @@ class BookCard
         $this->title = $this->escape($data['title']);
         $this->genre = $this->escape($data['genre']);
         $this->year = $data['year'];
+        $this->description = $this->escape($data['description']);
         $this->price = $this->formatPrice($data['price']);
         $this->cover_image = $this->escape($data['cover_image']);
-        $this->author_name = $this->escape($data['author_name']);
+        $this->author_id = $data['author_id'];
     }
 
     private function escape($value)
