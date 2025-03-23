@@ -4,7 +4,7 @@ require './autoload.php';
 
 
 $TITLE = "PHP Library";
-require './config/database.php';
+require_once './config/database.php';
 
 use controllers\BookController;
 
@@ -20,7 +20,7 @@ $books = $BookController->getCatalog();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="./public/logo.svg" type="image/x-icon">
+    <link rel="icon" href="./public/logo.svg" type="image/svg+xml">
     <title>
         <?php echo $TITLE; ?>
     </title>
@@ -39,7 +39,7 @@ $books = $BookController->getCatalog();
     </script>
 </head>
 
-<body class="flex flex-col min-h-dvh">
+<body>
 
     <?php include "components/header.php"; ?>
 
