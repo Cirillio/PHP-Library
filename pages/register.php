@@ -1,3 +1,14 @@
+<?php
+require_once "../autoload.php";
+require_once "../config/database.php";
+
+use controllers\RegisterController;
+
+$registerController = new RegisterController($pdo);
+$registerController->makeRegister();
+
+?>
+
 <!DOCTYPE html>
 <html lang="ru">
 
@@ -30,8 +41,9 @@
 
     <main class="h-screen w-full flex items-center justify-center">
 
-        <div class="flex w-[600px] flex-col rounded-md py-20 border-neutral border-2 text-neutral m-auto">
+        <div class="form-reg flex w-[600px] flex-col rounded-md py-20 border-neutral border-2 text-neutral m-auto">
             <h1 class="text-3xl font-semibold  mx-auto">Регистрация</h1>
+            <a class="w-fit mx-auto text-sm text-secondary hover:underline mt-2 " href="/login.php">Уже есть аккаунт?</a>
             <form action="" method="post" class="mx-32 my-10 flex flex-col gap-4">
 
                 <section class="relative">
@@ -43,7 +55,7 @@
                                 <circle cx="12" cy="7" r="4"></circle>
                             </g>
                         </svg>
-                        <input type="text" class="text-base-content" required pattern="[A-Za-z][A-Za-z0-9\-]*" minlength="3" maxlength="20" name="login" placeholder="Логин" />
+                        <input type="text" class="text-base-content" required pattern="[A-Za-z][A-Za-z0-9\-]*" minlength="3" maxlength="20" name="username" placeholder="Логин" />
                     </label>
                     <p class="validator-hint absolute z-10 bg-base-100 p-2 text-error rounded-md shadow-md">
                         <span class="text-sm">От 3 до 20 символов, только буквы, цифры или _ и -</span>
@@ -116,13 +128,18 @@
 
 
     <script>
-        const login = document.querySelector('input[name="login"]');
+        window.scrollTo({
+            top: document.querySelector('.form-reg').getBoundingClientRect().top + window.pageYOffset - (window.innerHeight / 2) + (document.querySelector('.form-reg').offsetHeight / 2),
+            behavior: 'smooth'
+        });
+
+        const login = document.querySelector('input[name="username"]');
         const email = document.querySelector('input[name="email"]');
         const password = document.querySelector('input[name="password"]');
         const confirmPassword = document.querySelector('input[name="confirmPassword"]');
 
         const register_form = {
-            "login": null,
+            "username": null,
             "email": null,
             "password": null,
             "confirmPassword": null
@@ -130,10 +147,11 @@
 
         const checkForm = (e) => {
             register_form[e.target.name] = e.target.validity.valid;
-            const loginValid = register_form['login'];
+            const loginValid = register_form['username'];
             const emailValid = register_form['email'];
             const passwordValid = register_form['password'];
             const confirmPasswordValid = register_form['confirmPassword'];
+            console.log(register_form)
             if (loginValid && emailValid && passwordValid && confirmPasswordValid) {
                 document.querySelector('button').removeAttribute('disabled');
             } else {
