@@ -2,6 +2,8 @@
 
 namespace repositories;
 
+use PDO;
+
 class RegisterRepository
 {
 
@@ -11,8 +13,6 @@ class RegisterRepository
     {
         $this->pdo = $pdo;
     }
-
-
 
     public function create($username, $password, $email, $role = null)
     {
@@ -29,5 +29,12 @@ class RegisterRepository
         $stmt->execute(['user_id' => $registeredId, 'username' => $username, 'email' => $email, 'role' => $role]);
 
         return $registeredId;
+    }
+
+    public function check($user_id)
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM registration WHERE id = :user_id");
+        $stmt->execute(['user_id' => $user_id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }

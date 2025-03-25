@@ -27,7 +27,8 @@ class RegisterController
             $password = $_POST['password'];
             $role = 'user';
 
-            if ($this->userRepository->findUser(null, $username, $email)) {
+            $check_user = $this->userRepository->findUser(null, $username, $email);
+            if ($check_user->username === $username) {
                 throw new Exception('USER_EXISTS');
             }
 
@@ -45,5 +46,10 @@ class RegisterController
 
             return $this->registerRepository->create($username, $password, $email, $role);
         }
+    }
+
+    public function getRegistration($user_id)
+    {
+        return $this->registerRepository->check($user_id);
     }
 }

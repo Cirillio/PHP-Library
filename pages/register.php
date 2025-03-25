@@ -1,11 +1,8 @@
 <?php
-require_once "../autoload.php";
-require_once "../config/database.php";
+require_once 'autoload.php';
+require 'config/config.php';
 
-use controllers\RegisterController;
-
-$registerController = new RegisterController($pdo);
-$registerController->makeRegister();
+session_start();
 
 ?>
 
@@ -35,7 +32,7 @@ $registerController->makeRegister();
 <body>
 
     <?php
-    include "../components/header.php";
+    include "components/header.php";
     ?>
 
 
@@ -43,8 +40,8 @@ $registerController->makeRegister();
 
         <div class="form-reg flex w-[600px] flex-col rounded-md py-20 border-neutral border-2 text-neutral m-auto">
             <h1 class="text-3xl font-semibold  mx-auto">Регистрация</h1>
-            <a class="w-fit mx-auto text-sm text-secondary hover:underline mt-2 " href="/login.php">Уже есть аккаунт?</a>
-            <form action="" method="post" class="mx-32 my-10 flex flex-col gap-4">
+            <a class="w-fit mx-auto text-sm text-secondary hover:underline mt-2 " href="/login">Уже есть аккаунт?</a>
+            <form action="/register_process" method="post" class="mx-32 my-10 flex flex-col gap-4">
 
                 <section class="relative">
                     <legend class="fieldset-legend text-xl text-neutral font-semibold">Логин</legend>
@@ -123,7 +120,7 @@ $registerController->makeRegister();
 
 
     <?php
-    include "../components/footer.php";
+    include "components/footer.php";
     ?>
 
 

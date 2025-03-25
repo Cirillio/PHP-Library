@@ -1,3 +1,11 @@
+<?php
+require_once 'autoload.php';
+require 'config/config.php';
+
+session_start();
+
+?>
+
 <!DOCTYPE html>
 <html lang="ru">
 
@@ -24,15 +32,38 @@
 <body>
 
     <?php
-    include "../components/header.php";
+    include "components/header.php";
     ?>
 
 
     <main class="h-screen w-full flex items-center justify-center">
 
-        <div class="flex w-[600px] flex-col rounded-md py-20 border-neutral border-2 text-neutral m-auto">
+        <div class="form-login flex w-[600px] flex-col rounded-md py-20 border-neutral border-2 text-neutral m-auto">
             <h1 class="text-3xl font-semibold  mx-auto">Авторизация</h1>
-            <form action="" method="post" class="mx-32 my-10 flex flex-col gap-4">
+            <a class="w-fit mx-auto text-sm text-secondary hover:underline mt-2 " href="/register">Еще нет аккаунта?</a>
+
+            <?php
+
+            if (isset($_SESSION['user_id'])) {
+                echo $_SESSION['user_id'];
+            }
+
+            if (isset($_SESSION['error'])) {
+                echo
+                "
+                    <div class='login-error text-error flex items-center justify-center gap-6 text-xl font-semibold my-2 border-y-2 border-error'>"
+                    . $_SESSION['error'] .
+                    "
+                        <button class='btn btn-sm btn-ghost my-2'>OK</button>
+                    </div>
+                ";
+
+                unset($_SESSION['error']);
+            }
+            ?>
+
+
+            <form action="/login_process" method="post" class="mx-32 my-10 flex flex-col gap-4">
 
                 <section class="relative">
                     <legend class="fieldset-legend text-xl text-neutral font-semibold">Логин</legend>
@@ -43,7 +74,7 @@
                                 <circle cx="12" cy="7" r="4"></circle>
                             </g>
                         </svg>
-                        <input type="text" class="text-base-content" required pattern="[A-Za-z][A-Za-z0-9\-]*" minlength="3" maxlength="20" name="login" placeholder="Логин" />
+                        <input type="text" class="text-base-content" required pattern="[A-Za-z][A-Za-z0-9\-]*" minlength="3" maxlength="20" name="username" placeholder="Логин" />
                     </label>
                     <p class="validator-hint absolute z-10 bg-base-100 p-2 text-error rounded-md shadow-md">
                         <span class="text-sm">От 3 до 20 символов, только буквы, цифры или _ и -</span>
@@ -84,22 +115,27 @@
 
 
     <?php
-    include "../components/footer.php";
+    include "components/footer.php";
     ?>
 
 
     <script>
-        const login = document.querySelector('input[name="login"]');
+        window.scrollTo({
+            top: document.querySelector('.form-login').getBoundingClientRect().top + window.pageYOffset - (window.innerHeight / 2) + (document.querySelector('.form-login').offsetHeight / 2),
+            behavior: 'smooth'
+        });
+
+        const login = document.querySelector('input[name="username"]');
         const password = document.querySelector('input[name="password"]');
 
         const login_form = {
-            "login": null,
+            "username": null,
             "password": null,
         };
 
         const checkForm = (e) => {
             login_form[e.target.name] = e.target.validity.valid;
-            const loginValid = login_form['login'];
+            const loginValid = login_form['username'];
             const passwordValid = login_form['password'];
             if (loginValid && passwordValid) {
                 document.querySelector('button').removeAttribute('disabled');
@@ -110,6 +146,10 @@
 
         login.oninput = checkForm;
         password.oninput = checkForm;
+
+        const loginError = document.querySelector('.login-error');
+        const closeError = loginError.querySelector("button");
+        closeError.onclick = () => loginError.remove();
     </script>
 
 </body>

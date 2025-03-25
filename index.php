@@ -7,21 +7,24 @@ $request = parse_url($request, PHP_URL_PATH);
 
 // Определяем маршруты
 switch ($request) {
-    case '/':
-    case '':
+
+    case '/library':
         require __DIR__ . '/pages/main.php'; // Главная страница в корне
         break;
-    case '/about':
-        require __DIR__ . '/pages/about.php'; // Страница about в папке pages
-        break;
-    case '/contact':
-        require __DIR__ . '/pages/contact.php'; // Страница contact в папке pages
-        break;
     case '/login':
-        require __DIR__ . '/pages/login.php'; // Страница contact в папке pages
+        require __DIR__ . '/pages/login.php'; // Страница логина в папке pages
+        break;
+    case '/logout':
+        require __DIR__ . '/pages/logout.php'; // Страница логина в папке pages
+        break;
+    case '/login_process':
+        require __DIR__ . '/pages/login_process.php'; // Страница логина в папке pages
+        break;
+    case '/register_process':
+        require __DIR__ . '/pages/register_process.php'; // Страница логина в папке pages
         break;
     case '/register':
-        require __DIR__ . '/pages/register.php'; // Страница contact в папке pages
+        require __DIR__ . '/pages/register.php'; // Страница регистрации в папке pages
         break;
     default:
         http_response_code(404);
