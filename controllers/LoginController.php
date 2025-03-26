@@ -27,13 +27,9 @@ class LoginController
                 $user = $this->loginRepository->login($username, $password);
 
                 $_SESSION['user_id'] = htmlspecialchars($user->user_id);
-                $_SESSION['username'] = htmlspecialchars($user->username);
-                $_SESSION['email'] = htmlspecialchars($user->email);
-                // $_SESSION['role'] = htmlspecialchars($role);
-                $_SESSION['avatar'] = htmlspecialchars($user->avatar) ? htmlspecialchars($user->avatar) : null;
-                $_SESSION['phone'] = htmlspecialchars($user->phone) ? htmlspecialchars($user->phone) : null;
-                // session_regenerate_id(true); // Обновляем ID сессии
-                header("Location: /");
+               
+                session_regenerate_id(true); // Обновляем ID сессии
+                header("Location: /library");
                 exit;
             } catch (Exception $e) {
                 $_SESSION['error'] = $e->getMessage();
@@ -49,7 +45,7 @@ class LoginController
         session_start();
         $_SESSION = array();
         session_destroy();
-        header("Location: /login");
+        header("Location: /library");
         exit;
     }
 }

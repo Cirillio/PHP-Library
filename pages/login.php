@@ -105,7 +105,7 @@ session_start();
 
 
                 <div class="flex justify-between">
-                    <button disabled class="btn btn-accent mt-6 w-fit mx-auto">Войти</button>
+                    <button id="login" disabled class="btn btn-accent mt-6 w-fit mx-auto">Войти</button>
                     <button class="btn btn-error mt-6 w-fit mx-auto">Не помню пароль</button>
                 </div>
             </form>
@@ -138,10 +138,12 @@ session_start();
             const loginValid = login_form['username'];
             const passwordValid = login_form['password'];
             if (loginValid && passwordValid) {
-                document.querySelector('button').removeAttribute('disabled');
+                console.log(loginValid, passwordValid)
+                document.querySelector('#login').removeAttribute('disabled');
             } else {
-                document.querySelector('button').setAttribute('disabled', true);
+                document.querySelector('#login').setAttribute('disabled', true);
             }
+            console.log(login_form)
         }
 
         login.oninput = checkForm;

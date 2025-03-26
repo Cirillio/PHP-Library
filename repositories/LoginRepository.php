@@ -31,6 +31,6 @@ class LoginRepository
 
         $pass_valid = password_verify(trim($password), $registration['password']);
 
-        return $pass_valid ? $user : throw new Exception((string)$registration['password']);
+        return $pass_valid ? $user : throw new Exception('Неверный пароль');
     }
 }
