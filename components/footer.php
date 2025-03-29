@@ -1,4 +1,4 @@
-<footer class="footer sm:footer-horizontal bg-base-200 mt-auto px-20 py-10">
+<footer class="footer sm:footer-horizontal bg-base-200 mt-auto  xl:px-20 md:px-10 sm:px-4 justify-center sm:justify-between py-10">
     <aside>
         <?php include "Logo.php"; ?>
 
@@ -12,7 +12,7 @@
         <a class="link link-hover">Контакты</a>
     </nav>
     <nav>
-        <h6 class="footer-title">Social</h6>
+        <h6 class="footer-title">Наши социальные сети</h6>
         <div class="grid grid-flow-col gap-4">
             <a>
                 <svg
@@ -48,7 +48,7 @@
                 </svg>
             </a>
         </div>
-        <label class="toggle my-4 mx-auto">
+        <label class="toggle my-4">
             <input type="checkbox" value="light" id="theme-controller" class="theme-controller">
 
             <svg aria-label="sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">

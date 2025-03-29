@@ -1,5 +1,5 @@
 <header>
-    <div class="flex justify-end sm:gap-4 sm:px-20 px-2 py-2 shadow-sm">
+    <div class="flex justify-end sm:gap-4 xl:px-20 md:px-10 px-2 py-4 shadow-sm">
         <label class="input mx-auto ">
             <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" fill="none" stroke="currentColor">
@@ -7,7 +7,7 @@
                     <path d="m21 21-4.3-4.3"></path>
                 </g>
             </svg>
-            <input type="search" class="w-full" required placeholder="Search" />
+            <input type="search" class="w-full" required placeholder="Поиск книг..." />
         </label>
 
         <?php if ($AUTH): ?>
@@ -78,9 +78,9 @@
         <?php endif; ?>
 
     </div>
-    <div class="flex flex-wrap sm:px-10 gap-10 justify-center py-6 items-baseline">
+    <div class="flex flex-wrap xl:px-20 md:px-10 sm:px-4 px-2 sm:gap-10 gap-4 justify-center xl:py-6 md:py-4 py-2 items-baseline">
         <?php include "Logo.php"; ?>
-        <ul class="flex ml-auto sm:w-fit w-full sm:gap-40  mx-auto text-lg">
+        <ul class="flex ml-auto sm:w-fit w-full sm:gap-40 sm:my-0 my-4 mx-auto text-lg">
             <li class="flex-1 text-center"><a href="/"><button data-link="" class="header-link disabled:underline hover:text-primary disabled:cursor-default cursor-pointer transition-all">Главная</button></a></li>
             <li class="flex-1 text-center"><a href="/library"><button data-link="library" class="header-link disabled:underline hover:text-primary disabled:cursor-default cursor-pointer transition-all">Каталог</button></a></li>
             <li class="flex-1 text-center"><a href="/authors"><button data-link="authors" class="header-link disabled:underline hover:text-primary cursor-pointer disabled:cursor-default transition-all">Авторы</button></a></li>

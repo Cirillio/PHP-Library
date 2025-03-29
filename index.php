@@ -20,14 +20,18 @@ switch ($request) {
         require __DIR__ . '/pages/logout.php';
         break;
     case '/login_process':
-        require __DIR__ . '/pages/login_process.php';
+        require __DIR__ . '/requests/login_process.php';
         break;
     case '/register_process':
-        require __DIR__ . '/pages/register_process.php';
+        require __DIR__ . '/requests/register_process.php';
         break;
     case '/register':
         require __DIR__ . '/pages/register.php';
         break;
+    case '/cart':
+        require __DIR__ . '/requests/cart.php';
+        break;
+
     default:
         http_response_code(404);
         require __DIR__ . '/pages/404.php'; // Страница 404 для всех неизвестных маршрутов

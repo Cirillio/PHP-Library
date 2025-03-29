@@ -1,3 +1,14 @@
+
 .logo {
-  font-family: "Annabelle";
+  font-family: "Eagle Lake", cursive;
+  font-weight: 400;
+  font-style: normal;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  background-image: linear-gradient(
+    to right,
+    var(--color-primary),
+    var(--color-secondary)
+  );
 }

@@ -7,17 +7,17 @@ require 'config/database.php';
 
 use models\CurrentUser;
 use controllers\BookController;
-
+use controllers\CartController;
 
 $AUTH = checkAuth();
 
 $USER = $AUTH ? new CurrentUser($pdo, $_SESSION['user_id']) : null;
 
 
-
+$CartController = new CartController($pdo, $USER ? $USER->getId() : null);
 $BookController = new BookController($pdo);
 $books = $BookController->getCatalog();
-
+// $cart = $CartController->getCart();
 $TITLE = "Каталог | PHP Library";
 ?>
 
@@ -27,7 +27,7 @@ $TITLE = "Каталог | PHP Library";
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="../public/logo.svg" type="image/svg+xml">
+    <link rel="icon" href="/public/logo.svg" type="image/svg+xml">
 
     <title>
         <?php echo $TITLE; ?>
@@ -37,7 +37,7 @@ $TITLE = "Каталог | PHP Library";
         import {
             setToggler,
             loadTheme
-        } from "../public/assets/theme.js";
+        } from "/public/assets/theme.js";
         loadTheme();
         setToggler();
     </script>
@@ -45,9 +45,9 @@ $TITLE = "Каталог | PHP Library";
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
 
 
-    <link rel="stylesheet" href="../public/assets/themes.css">
-    <link rel="stylesheet" href="../public/assets/logo.css">
-    <link rel="stylesheet" href="../public/assets/root.css">
+    <link rel="stylesheet" href="/public/assets/themes.css">
+    <link rel="stylesheet" href="/public/assets/logo.css">
+    <link rel="stylesheet" href="/public/assets/root.css">
 </head>
 
 <body>
@@ -92,7 +92,7 @@ $TITLE = "Каталог | PHP Library";
                             </span>
                             <strong class="row-start-3 flex items-center book-price"><?= $book->price ?>₱</strong>
                             <div class="w-full row-start-4 flex items-center gap-1">
-                                <button class="btn flex-1 btn-primary button text-nowrap">В корзину</button>
+                                <button data-in-cart="false" data-cart="<?= $book->id ?>" class="add-to-cart btn flex-1 btn-primary button text-nowrap">В корзину</button>
                                 <button class="btn btn-secondary btn-square">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="size-[1.2em]">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
@@ -118,7 +118,90 @@ $TITLE = "Каталог | PHP Library";
 
     <script src="../public/assets/categories.js"></script>
     <script src="../public/assets/header.js"></script>
+    <script src="/public/axios.min.js"></script>
+    <script>
+        const book_cart_btn = document.querySelectorAll(".add-to-cart");
 
+        async function AddBookToCart(book) {
+            const book_id = Number(book.dataset.cart);
+            await axios.post("/cart?action=add", {
+                "book_id": book_id
+            }).then(response => {
+                console.log(response);
+                inCart(book);
+            }).catch(error => {
+                console.log(error);
+            })
+        }
+
+        async function RemoveBookFromCart(book) {
+            const book_id = Number(book.dataset.cart);
+            await axios.post("/cart?action=remove", {
+                "book_id": book_id
+            }).then(response => {
+                notInCart(book);
+            }).catch(error => {
+                console.log(error);
+            })
+        }
+
+        const addToCartHandler = (event) => {
+            const inCart = event.target.dataset.inCart === "true";
+            inCart ? RemoveBookFromCart(event.target) : AddBookToCart(event.target);
+        }
+
+        function inCart(book) {
+            book.dataset.inCart = "true";
+            book.classList.add("btn-secondary");
+            book.classList.remove("btn-primary");
+            book.textContent = "В корзине";
+        }
+
+        function notInCart(book) {
+            book.dataset.inCart = "false";
+            book.classList.remove("btn-secondary");
+            book.classList.add("btn-primary");
+            book.textContent = "В корзину";
+        }
+
+        book_cart_btn.forEach(book => {
+            book.onclick = addToCartHandler;
+        })
+
+        async function GetCart() {
+            await axios.get("/cart?action=get").then(response => {
+                const cart = response.data.data;
+
+                console.log(cart);
+                // Проверяем, что cart – это массив
+                if (!Array.isArray(cart)) {
+                    console.error("Ошибка: данные корзины не массив!", cart);
+                    return null;
+                }
+
+                book_cart_btn.forEach(book => {
+                    const book_id = Number(book.dataset.cart);
+
+                    // Проверяем, есть ли книга в корзине
+                    const _inCart = cart.some(item => item.book_id === book_id);
+
+                    if (_inCart) {
+                        inCart(book);
+                    } else {
+                        notInCart(book);
+                    }
+
+                });
+
+                return cart;
+            }).catch(error => {
+                console.error("Ошибка при получении данных корзины:", error);
+                return null;
+            });
+        }
+
+        GetCart();
+    </script>
 </body>
 
 </html>

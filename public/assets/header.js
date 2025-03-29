@@ -2,7 +2,6 @@ const headerLinks = document.querySelectorAll(".header-link");
 const url = new URL(window.location.href);
 const currentPage = url.pathname.split("/").pop();
 
-console.log(currentPage);
 headerLinks.forEach((link) => {
   link.removeAttribute("disabled");
   link.classList.remove("text-primary");

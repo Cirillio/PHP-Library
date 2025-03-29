@@ -40,6 +40,18 @@ $TITLE = $USER->getUsername() . " | Профиль | PHP Library";
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="/public/assets/themes.css">
+    <link rel="stylesheet" href="/public/assets/root.css">
+    <link rel="stylesheet" href="/public/assets/logo.css">
+
+
+    <script type="module">
+        import {
+            setToggler,
+            loadTheme
+        } from "/public/assets/theme.js";
+        loadTheme();
+        setToggler();
+    </script>
 </head>
 
 <body class="flex flex-col min-h-screen">
@@ -47,35 +59,52 @@ $TITLE = $USER->getUsername() . " | Профиль | PHP Library";
     <?php include "components/header.php" ?>
 
 
-    <main class="h-full w-full flex-col px-20 gap-2 py-4 flex-1 items-center flex">
-        <ul class="flex gap-6 w-full justify-end items-center">
-            <li class="w-fit btn  btn-primary btn-lg">Профиль</li>
-            <li class="w-fit btn btn-ghost btn-primary btn-lg">Настройки</li>
-        </ul>
-        <div class="min-h-full grid grid-cols-2 w-full flex-1 rounded-xl shadow-md bg-base-200">
-            <div class="flex flex-col items-end gap-4 p-4">
+    <main class="h-full w-full flex-col xl:px-20 md:px-10 sm:px-4 px-2 gap-2 py-4 flex-1 items-center flex">
+        <div class="flex w-full md:justify-end justify-between items-center">
+            <div class=" md:hidden">
                 <div class="avatar">
-                    <div class="w-32 rounded-xl">
+                    <div class="w-16 rounded-xl">
                         <img src="root/avatars/<?= $avatar ?>" alt="<?= $user_id ?>_<?= $username ?>">
                     </div>
                 </div>
-                <div class="space-y-4">
-                    <ul class="space-y-2">
-                        <li class="flex  justify-end gap-2 bo border">
-                            <span class="font-semibold">Пользователь:</span>
-                            <span class="font-semibold"><?= $username ?></span>
+            </div>
+            <div class="flex sm:flex-row flex-col sm:gap-2 gap-1 items-center">
+                <button class="w-fit btn  btn-primary md:btn-md btn-sm lg:btn-lg">Профиль</button>
+                <button class="w-fit btn btn-ghost btn-primary md:btn-md btn-sm lg:btn-lg">Настройки</button>
+            </div>
+        </div>
+        <div class="min-h-full flex flex-col md:grid grid-cols-2 w-full flex-1 rounded-xl shadow-md bg-base-200">
+            <div class="flex md:flex-col bg-base-100 border-4 border-base-200 flex-row-reverse rounded-xl md:gap-4 md:p-4">
+                <div class="min-[100px]:hidden md:flex mx-auto">
+                    <div class="avatar">
+                        <div class="lg:w-32 sm:w-24 w-16 rounded-xl">
+                            <img src="root/avatars/<?= $avatar ?>" alt="<?= $user_id ?>_<?= $username ?>">
+                        </div>
+                    </div>
+                </div>
+                <div class="space-y-4 rounded-md w-full flex-x-1 md:bg-base-200 md:shadow-md p-4">
+                    <ul class="space-y-4 profile-info">
+                        <li class="flex  justify-between gap-2 border-b">
+                            <span class=" text-accent">Пользователь:</span>
+                            <span class="text-primary"><?= $username ?></span>
                         </li>
-                        <li class="flex justify-end gap-2 bo border">
-                            <span class="font-semibold">Дата регистрации:</span>
-                            <span class="font-semibold"><?= $date ?></span>
+                        <li class="flex justify-between gap-2 border-b">
+                            <span class=" text-accent">Почта:</span>
+                            <span class="text-primary"><?= $email ?></span>
                         </li>
-                        <li class="flex justify-end gap-2 border">
-                            <span class="font-semibold">Почта:</span>
-                            <span class="font-semibold"><?= $email ?></span>
+                        <li class="flex  justify-between gap-2 border-b">
+                            <span class=" text-accent">Телефон:</span>
+
+                            <?php if ($phone): ?>
+                                <span class="text-primary"><?= $phone ?></span>
+                            <?php else: ?>
+                                <span class="text-error">Не указан</span>
+                            <?php endif; ?>
+
                         </li>
-                        <li class="flex  justify-end gap-2 bo border">
-                            <span class="font-semibold">Телефон:</span>
-                            <span class="font-semibold"><?= $phone ? $phone : "Не указан" ?></span>
+                        <li class="flex justify-between gap-2 border-b">
+                            <span class=" text-accent">Дата регистрации:</span>
+                            <span class="text-primary"><?= $date ?></span>
                         </li>
                     </ul>
                 </div>
@@ -88,15 +117,6 @@ $TITLE = $USER->getUsername() . " | Профиль | PHP Library";
 
     <?php include "components/footer.php"; ?>
 
-
-    <script type="module">
-        import {
-            setToggler,
-            loadTheme
-        } from "/public/assets/theme.js";
-        loadTheme();
-        setToggler();
-    </script>
 
 </body>
 
