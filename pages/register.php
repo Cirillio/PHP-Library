@@ -112,7 +112,7 @@ session_start();
                     </p>
                 </section>
 
-                <button disabled class="btn btn-accent mt-6 w-fit mx-auto">Зарегистрироваться</button>
+                <button disabled id="reg-btn" class="btn btn-accent mt-6 w-fit mx-auto">Зарегистрироваться</button>
             </form>
         </div>
 
@@ -148,11 +148,10 @@ session_start();
             const emailValid = register_form['email'];
             const passwordValid = register_form['password'];
             const confirmPasswordValid = register_form['confirmPassword'];
-            console.log(register_form)
             if (loginValid && emailValid && passwordValid && confirmPasswordValid) {
-                document.querySelector('button').removeAttribute('disabled');
+                document.querySelector('#reg-btn').removeAttribute('disabled');
             } else {
-                document.querySelector('button').setAttribute('disabled', true);
+                document.querySelector('#reg-btn').setAttribute('disabled', true);
             }
         }
 
@@ -160,9 +159,9 @@ session_start();
         email.oninput = checkForm;
         password.oninput = (e) => {
             confirmPassword.setAttribute('pattern', password.value);
-            console.log(password.validity.valid);
             checkForm(e);
         }
+
         confirmPassword.oninput = checkForm;
     </script>
 

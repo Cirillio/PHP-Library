@@ -40,7 +40,7 @@ class BookRepository implements BookRepositoryInterface
         return $book;
     }
 
-    public function getForCatalog($params = null): array
+    public function getForCatalog($params = null, $limit = 12, $page = 0): array
     {
 
         $sql = "
@@ -52,6 +52,7 @@ class BookRepository implements BookRepositoryInterface
             books.price, 
             books.cover_image, 
             authors.name AS author_name, 
+            authors.id AS author_id,
             IFNULL(storage.stock, 0) AS stock
         FROM 
             books
@@ -92,8 +93,16 @@ class BookRepository implements BookRepositoryInterface
             $sql .= " WHERE " . implode(" AND ", $conditions);
         }
 
+        // Добавляем пагинацию
+        $offset = ($page - 1) * $limit;
+        $sql .= " LIMIT :limit OFFSET :offset";
+
         // Подготавливаем и выполняем запрос
         $stmt = $this->pdo->prepare($sql);
+
+        $queryParams['limit'] = $limit;
+        $queryParams['offset'] = $offset;
+
         $stmt->execute($queryParams);
 
         $booksData = $stmt->fetchAll();
@@ -103,6 +112,55 @@ class BookRepository implements BookRepositoryInterface
 
         return $books;
     }
+
+    public function getTotalBooksCount($params = null): int
+    {
+        $sql = "
+    SELECT COUNT(*) AS total
+    FROM 
+        books
+    JOIN
+        
+        authors
+    ON
+        books.author_id = authors.id
+    ";
+
+        // Массив для хранения условий и параметров
+        $conditions = [];
+        $queryParams = [];
+
+        // Добавляем условия в зависимости от переданных параметров
+        if (!empty($params['category'])) {
+            $conditions[] = "books.genre = :category";
+            $queryParams['category'] = $params['category'];
+        }
+        if (!empty($params['title'])) {
+            $conditions[] = "books.title LIKE :title";
+            $queryParams['title'] = '%' . $params['title'] . '%';
+        }
+        if (!empty($params['author'])) {
+            $conditions[] = "authors.name LIKE :author";
+            $queryParams['author'] = '%' . $params['author'] . '%';
+        }
+        if (!empty($params['year'])) {
+            $conditions[] = "books.year = :year";
+            $queryParams['year'] = $params['year'];
+        }
+
+        // Если есть условия, добавляем их в SQL-запрос
+        if (!empty($conditions)) {
+            $sql .= " WHERE " . implode(" AND ", $conditions);
+        }
+
+        // Выполняем запрос
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($queryParams);
+
+        $result = $stmt->fetch();
+        return $result['total'];
+    }
+
 
 
     public function create(Book $Book): Book

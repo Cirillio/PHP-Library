@@ -20,14 +20,37 @@ class BookController implements BookControllerInterface
 
     public function getCatalog(): array
     {
-        $category = $_GET['category'] ?? null;
-        $author = $_GET['author'] ?? null;
-        $title = $_GET['title'] ?? null;
-        $year = $_GET['year'] ?? null;
+        $params = [];
 
-        $params = compact('category', 'author', 'title', 'year');
+        if (isset($_GET['category'])) {
+            $params['category'] = $_GET['category'];
+        }
 
-        return $this->BookRepository->getForCatalog($params);
+        if (isset($_GET['author'])) {
+            $params['author'] = $_GET['author'];
+        }
+
+        if (isset($_GET['title'])) {
+            $params['title'] = $_GET['title'];
+        }
+
+        if (isset($_GET['year'])) {
+            $params['year'] = $_GET['year'];
+        }
+
+        $limit = 12;  // Количество книг на странице
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Текущая страница (по умолчанию 1)
+
+        $books = $this->BookRepository->getForCatalog($params, $limit, $page);
+        $totalBooks = $this->BookRepository->getTotalBooksCount($params);
+        // Вычисляем количество страниц
+        $totalPages = ceil($totalBooks / $limit);
+
+        return [
+            'books' => $books,
+            'totalPages' => $totalPages,
+            'currentPage' => $page
+        ];
     }
 
     // public function create(Book $Book): Book {}

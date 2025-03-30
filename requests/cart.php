@@ -50,6 +50,10 @@ switch ($action) {
         $cartController->getCart();
         break;
 
+    case "total":
+        $cartController->getTotal();
+        break;
+
     default:
         $response["message"] = "Неверный запрос";
         http_response_code(405);

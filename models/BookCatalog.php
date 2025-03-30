@@ -11,6 +11,7 @@ class BookCatalog
     public $price;
     public $cover_image;
     public $author_name;
+    public $author_id;
     public $stock;
 
 
@@ -23,6 +24,7 @@ class BookCatalog
         $this->price = $this->formatPrice($data['price']);
         $this->cover_image = $this->escape($data['cover_image']);
         $this->author_name = $this->escape($data['author_name']);
+        $this->author_id = $data['author_id'];
         $this->stock = $data['stock'];
     }
 

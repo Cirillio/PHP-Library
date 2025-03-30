@@ -97,4 +97,20 @@ class CartController
             http_response_code(500); // Internal Server Error
         }
     }
+
+    public function getTotal()
+    {
+        $response = [];
+        try {
+            $response["success"] = true;
+            $response["message"] = "Сумма корзины";
+            $response['data'] = $this->cartRepository->GetTotal($this->user);
+            http_response_code(200);
+            echo json_encode($response);
+        } catch (Exception $e) {
+            $response["success"] = false;
+            $response["message"] = $e->getMessage();
+            http_response_code(500); // Internal Server Error
+        }
+    }
 }
