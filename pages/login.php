@@ -4,6 +4,12 @@ require 'config/config.php';
 
 session_start();
 
+
+if (checkAuth()) {
+    header("Location: /catalog");
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -14,19 +20,8 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="../public/logo.svg" type="image/svg+xml">
     <title>Авторизация | PHP Library</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="../public/assets/themes.css">
-    <link rel="stylesheet" href="../public/assets/logo.css">
-    <link rel="stylesheet" href="../public/assets/root.css">
-    <script type="module">
-        import {
-            setToggler,
-            loadTheme
-        } from "../public/assets/theme.js";
-        loadTheme();
-        setToggler();
-    </script>
+    <?php include "components/styles.php"; ?>
+
 </head>
 
 <body>
@@ -43,10 +38,6 @@ session_start();
             <a class="w-fit mx-auto text-sm text-secondary hover:underline mt-2 " href="/register">Еще нет аккаунта?</a>
 
             <?php
-
-            if (isset($_SESSION['user_id'])) {
-                echo $_SESSION['user_id'];
-            }
 
             if (isset($_SESSION['error'])) {
                 echo

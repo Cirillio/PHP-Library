@@ -2,11 +2,9 @@
 
 namespace controllers;
 
-use interfaces\Book\BookControllerInterface;
 use repositories\BookRepository;
-use models\Book;
 
-class BookController implements BookControllerInterface
+class BookController
 {
 
     private $BookRepository;
@@ -26,19 +24,13 @@ class BookController implements BookControllerInterface
             $params['category'] = $_GET['category'];
         }
 
-        if (isset($_GET['author'])) {
-            $params['author'] = $_GET['author'];
+        foreach ($_GET['filters'] ?? [] as $filterName => $filterValue) {
+            if (!empty($filterValue)) {
+                $params[$filterName] = $filterValue;
+            }
         }
 
-        if (isset($_GET['title'])) {
-            $params['title'] = $_GET['title'];
-        }
-
-        if (isset($_GET['year'])) {
-            $params['year'] = $_GET['year'];
-        }
-
-        $limit = 12;  // Количество книг на странице
+        $limit = 8;  // Количество книг на странице
         $page = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Текущая страница (по умолчанию 1)
 
         $books = $this->BookRepository->getForCatalog($params, $limit, $page);

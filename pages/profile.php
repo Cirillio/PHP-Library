@@ -118,6 +118,122 @@ $TITLE = $USER->getUsername() . " | Профиль | PHP Library";
     <?php include "components/footer.php"; ?>
 
 
+    <script src="/public/axios.min.js"></script>
+    <script>
+        const cart_total = document.querySelector(".cart-total");
+        const cart_quantity = document.querySelector(".cart-quantity");
+
+        const total = {
+            "total": 0,
+            "quantity": 0
+        };
+
+        async function GetTotal() {
+            await axios.get("/cart?action=total").then(response => {
+                const _total = response.data.data;
+                if (_total == null) {
+                    throw new Error("Вероятно, пользователь не авторизован. Получить данные о корзине не удалось.");
+                }
+                total.quantity = _total.quantity;
+                total.total = _total.total;
+                console.log(total);
+                cart_total.textContent = total.total;
+                cart_quantity.textContent = total.quantity;
+            }).catch(error => {
+                console.log(error);
+            })
+        }
+
+        GetTotal();
+
+        let cart = null;
+
+        async function GetCart() {
+            await axios.get("/cart?action=get").then(response => {
+                const _cart = response.data.data;
+
+
+
+                // Проверяем, что cart – это массив
+                if (!Array.isArray(_cart)) {
+                    cart = null;
+                    throw new Error("Вероятно, пользователь не авторизован. Получить данные о корзине не удалось.");
+                }
+
+                book_cart_btn.forEach(book => {
+                    const book_id = Number(book.dataset.cart);
+
+                    // Проверяем, есть ли книга в корзине
+                    const _inCart = _cart.some(item => item.book_id === book_id);
+
+                    if (_inCart) {
+                        inCart(book);
+                    } else {
+                        notInCart(book);
+                    }
+
+                });
+
+                cart = _cart;
+                // console.log(cart);
+            }).catch(error => {
+                console.error("Ошибка при получении данных корзины:", error);
+                cart = null;
+            });
+        }
+
+        GetCart();
+
+        const book_cart_btn = document.querySelectorAll(".add-to-cart");
+
+        async function AddBookToCart(book) {
+            const book_id = Number(book.dataset.cart);
+            await axios.post("/cart?action=add", {
+                "book_id": book_id
+            }).then(response => {
+                console.log(response);
+                inCart(book);
+            }).catch(error => {
+                console.log(error);
+            })
+        }
+
+        async function RemoveBookFromCart(book) {
+            const book_id = Number(book.dataset.cart);
+            await axios.post("/cart?action=remove", {
+                "book_id": book_id
+            }).then(response => {
+                notInCart(book);
+            }).catch(error => {
+                console.log(error);
+            })
+        }
+
+        async function addToCartHandler(event) {
+            const inCart = event.target.dataset.inCart === "true";
+            inCart ? await RemoveBookFromCart(event.target) : await AddBookToCart(event.target);
+            GetTotal();
+        }
+
+        function inCart(book) {
+            book.dataset.inCart = "true";
+            book.classList.add("btn-secondary");
+            book.classList.remove("btn-primary");
+            book.textContent = "В корзине";
+        }
+
+        function notInCart(book) {
+            book.dataset.inCart = "false";
+            book.classList.remove("btn-secondary");
+            book.classList.add("btn-primary");
+            book.textContent = "В корзину";
+        }
+
+        book_cart_btn.forEach(book => {
+            book.onclick = addToCartHandler;
+        })
+    </script>
+
 </body>
 
 </html>

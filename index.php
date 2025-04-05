@@ -10,7 +10,7 @@ switch ($request) {
     case '/profile':
         require __DIR__ . '/pages/profile.php';
         break;
-    case '/library':
+    case '/catalog':
         require __DIR__ . '/pages/main.php';
         break;
     case '/login':
@@ -28,8 +28,11 @@ switch ($request) {
     case '/register':
         require __DIR__ . '/pages/register.php';
         break;
+    case '/cart_process':
+        require __DIR__ . '/requests/cart_process.php';
+        break;
     case '/cart':
-        require __DIR__ . '/requests/cart.php';
+        require __DIR__ . '/pages/cart.php';
         break;
 
     default:

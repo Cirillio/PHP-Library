@@ -3,7 +3,9 @@ require_once 'autoload.php';
 require 'config/config.php';
 
 session_start();
-
+if (checkAuth()) {
+    header("Location: /catalog");
+}
 ?>
 
 <!DOCTYPE html>
@@ -14,19 +16,8 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="../public/logo.svg" type="image/svg+xml">
     <title>Регистрация | PHP Library</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="../public/assets/themes.css">
-    <link rel="stylesheet" href="../public/assets/logo.css">
-    <link rel="stylesheet" href="../public/assets/root.css">
-    <script type="module">
-        import {
-            setToggler,
-            loadTheme
-        } from "../public/assets/theme.js";
-        loadTheme();
-        setToggler();
-    </script>
+    <?php include "components/styles.php"; ?>
+
 </head>
 
 <body>

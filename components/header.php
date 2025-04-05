@@ -56,8 +56,8 @@
                     <ul
                         tabindex="0"
                         class="menu menu-md dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow-md border border-base-content">
-                        <li><a href="../profile">Профиль</a></li>
-                        <li><a href=" /logout">Выход</a></li>
+                        <li><a href="/profile">Профиль</a></li>
+                        <li><a href="/logout">Выход</a></li>
                     </ul>
                 </div>
                 <div class="sm:hidden">
@@ -87,7 +87,7 @@
         <?php include "Logo.php"; ?>
         <ul class="flex ml-auto sm:w-fit w-full sm:gap-40 sm:my-0 my-4 mx-auto text-lg">
             <li class="flex-1 text-center"><a href="/"><button data-link="" class="header-link disabled:underline hover:text-primary disabled:cursor-default cursor-pointer transition-all">Главная</button></a></li>
-            <li class="flex-1 text-center"><a href="/library"><button data-link="library" class="header-link disabled:underline hover:text-primary disabled:cursor-default cursor-pointer transition-all">Каталог</button></a></li>
+            <li class="flex-1 text-center"><a href="/catalog"><button data-link="catalog" class="header-link disabled:underline hover:text-primary disabled:cursor-default cursor-pointer transition-all">Каталог</button></a></li>
             <li class="flex-1 text-center"><a href="/authors"><button data-link="authors" class="header-link disabled:underline hover:text-primary cursor-pointer disabled:cursor-default transition-all">Авторы</button></a></li>
         </ul>
     </div>

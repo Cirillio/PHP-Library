@@ -2,11 +2,10 @@
 
 namespace repositories;
 
-use interfaces\Book\BookRepositoryInterface;
 use models\Book;
 use models\BookCatalog;
 
-class BookRepository implements BookRepositoryInterface
+class BookRepository
 {
     private $pdo;
 
@@ -176,13 +175,13 @@ class BookRepository implements BookRepositoryInterface
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(array(
-            'title' => $Book->title,
-            'genre' => $Book->genre,
-            'year' => $Book->year,
-            'description' => $Book->description,
-            'price' => $Book->price,
-            'cover_image' => $Book->cover_image,
-            'author_id' => $Book->author_id
+            'title' => $Book->getTitle(),
+            'genre' => $Book->getGenre(),
+            'year' => $Book->getYear(),
+            'description' => $Book->getDescription(),
+            'price' => $Book->getPrice(),
+            'cover_image' => $Book->getCoverImage(),
+            'author_id' => $Book->getAuthorId()
         ));
         $book = $this->getOne($this->pdo->lastInsertId());
         return $book;
@@ -207,17 +206,17 @@ class BookRepository implements BookRepositoryInterface
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(array(
-            'title' => $Book->title,
-            'genre' => $Book->genre,
-            'year' => $Book->year,
-            'description' => $Book->description,
-            'price' => $Book->price,
-            'cover_image' => $Book->cover_image,
-            'author_id' => $Book->author_id,
-            'id' => $Book->id
+            'id' => $Book->getId(),
+            'title' => $Book->getTitle(),
+            'genre' => $Book->getGenre(),
+            'year' => $Book->getYear(),
+            'description' => $Book->getDescription(),
+            'price' => $Book->getPrice(),
+            'cover_image' => $Book->getCoverImage(),
+            'author_id' => $Book->getAuthorId()
         ));
 
-        $book = $this->getOne($Book->id);
+        $book = $this->getOne($Book->getId());
         return $book;
     }
 

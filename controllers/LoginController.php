@@ -22,14 +22,16 @@ class LoginController
             try {
                 $username = $_POST['username'];
                 $password = $_POST['password'];
-                // $role = $_POST['role'] || 'user';
 
                 $user = $this->loginRepository->login($username, $password);
 
                 $_SESSION['user_id'] = htmlspecialchars($user->user_id);
-               
+
                 session_regenerate_id(true); // Обновляем ID сессии
-                header("Location: /library");
+
+                unset($_POST['password']);
+
+                header("Location: /catalog");
                 exit;
             } catch (Exception $e) {
                 $_SESSION['error'] = $e->getMessage();
@@ -45,7 +47,7 @@ class LoginController
         session_start();
         $_SESSION = array();
         session_destroy();
-        header("Location: /library");
+        header("Location: /catalog");
         exit;
     }
 }

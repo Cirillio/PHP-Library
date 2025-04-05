@@ -1,24 +1,17 @@
-const loadTheme = () => {
-  const toggler = document.querySelector("#theme-controller");
-  let theme = localStorage.getItem("theme") || "light";
-  setTheme(theme);
-  theme === "light" ? (toggler.checked = false) : (toggler.checked = true);
-};
+(function ThemeManager() {
+  const html = document.documentElement;
+  const savedTheme = localStorage.getItem("theme") || "light";
 
-function setTheme(theme) {
-  document.querySelector("html").dataset.theme = theme;
-}
+  html.dataset.theme = savedTheme;
 
-function toggleTheme() {
-  let theme = document.querySelector("html").dataset.theme;
-  theme === "light" ? (theme = "dark") : (theme = "light");
-  setTheme(theme);
-  localStorage.setItem("theme", theme);
-}
+  document.addEventListener("DOMContentLoaded", () => {
+    const toggler = document.querySelector("#theme-controller");
+    toggler.checked = html.dataset.theme === "dark";
 
-const setToggler = () => {
-  const toggler = document.querySelector("#theme-controller");
-  toggler.onclick = toggleTheme;
-};
-
-export { loadTheme, setToggler };
+    toggler.onclick = () => {
+      html.dataset.theme = html.dataset.theme === "dark" ? "light" : "dark";
+      toggler.checked = html.dataset.theme === "dark";
+      localStorage.setItem("theme", html.dataset.theme);
+    };
+  });
+})();

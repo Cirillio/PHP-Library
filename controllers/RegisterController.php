@@ -10,8 +10,8 @@ use Exception;
 class RegisterController
 {
 
-    private $registerRepository;
-    private $userRepository;
+    private  $registerRepository;
+    private  $userRepository;
 
     public function __construct($pdo)
     {

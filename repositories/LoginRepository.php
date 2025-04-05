@@ -9,13 +9,11 @@ use Exception;
 
 class LoginRepository
 {
-    private $pdo;
     private $userRepository;
     private $registerRepository;
 
     public function __construct($pdo)
     {
-        $this->pdo = $pdo;
         $this->userRepository = new UserRepository($pdo);
         $this->registerRepository = new RegisterRepository($pdo);
     }

@@ -6,6 +6,8 @@ session_start();
 use controllers\CartController;
 
 if (!isset($_SESSION['user_id'])) {
+    http_response_code(401);
+    echo json_encode(["message" => "Пользователь не авторизован"]);
     header("Location: /login");
     exit;
 }
@@ -13,7 +15,6 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];
 $cartController = new CartController($pdo, $user_id);
 
-header('Content-Type: application/json');
 
 $action = $_GET['action'] ?? null;
 
@@ -23,27 +24,11 @@ $response = ["success" => false];
 
 switch ($action) {
     case 'add':
-
-        if (!isset($data['book_id']) || !is_numeric($data['book_id'])) {
-            $response["message"] = "Неверный идентификатор книги";
-            http_response_code(400);
-            echo json_encode($response);
-            exit;
-        }
-
-        $cartController->addToCart((int)$data['book_id']);
+        $cartController->addToCart($data['book_id'] ? $data['book_id'] : null);
         break;
 
     case 'remove':
-
-        if (!isset($data['book_id']) || !is_numeric($data['book_id'])) {
-            $response["message"] = "Неверный идентификатор книги";
-            http_response_code(400);
-            echo json_encode($response);
-            exit;
-        }
-
-        $cartController->removeFromCart((int)$data['book_id']);
+        $cartController->removeFromCart($data['book_id'] ? $data['book_id'] : null);
         break;
 
     case 'get':
@@ -53,6 +38,10 @@ switch ($action) {
     case "total":
         $cartController->getTotal();
         break;
+
+    case null:
+        header("Location: /cart");
+        exit;
 
     default:
         $response["message"] = "Неверный запрос";

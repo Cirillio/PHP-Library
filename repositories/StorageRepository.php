@@ -2,10 +2,9 @@
 
 namespace repositories;
 
-use interfaces\Storage\StorageRepositoryInterface;
 use models\Storage;
 
-class StorageRepository implements StorageRepositoryInterface
+class StorageRepository
 {
 
     private $pdo;
