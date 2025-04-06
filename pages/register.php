@@ -1,9 +1,6 @@
 <?php
-require_once 'autoload.php';
-require 'config/config.php';
 
-session_start();
-if (checkAuth()) {
+if ($AUTH) {
     header("Location: /catalog");
 }
 ?>

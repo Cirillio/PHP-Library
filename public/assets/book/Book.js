@@ -6,6 +6,7 @@ export class Book {
     this.price = Number(element.dataset.price);
     this.cart_button = element.querySelector(".add-to-cart");
     this.in_cart = false;
+    this.stock = Number(element.dataset.stock);
     this.init();
   }
 
@@ -42,13 +43,17 @@ export class Book {
 
     // Изменение внешнего вида кнопки
     if (state) {
-      this.cart_button.classList.add("btn-secondary");
+      this.cart_button.classList.add(
+        this.stock == 0 ? "btn-error" : "btn-secondary"
+      );
       this.cart_button.classList.remove("btn-primary");
-      this.cart_button.textContent = "В корзине";
+      this.cart_button.textContent = this.stock == 0 ? "Убрать" : "В корзине";
+      this.cart_button.disabled = false;
     } else {
       this.cart_button.classList.remove("btn-secondary");
       this.cart_button.classList.add("btn-primary");
       this.cart_button.textContent = "В корзину";
+      this.cart_button.disabled = this.stock == 0 ? true : false;
     }
   }
 

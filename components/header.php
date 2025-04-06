@@ -86,9 +86,9 @@
     <div class="flex flex-wrap xl:px-20 md:px-10 sm:px-4 px-2 sm:gap-10 gap-4 justify-center xl:py-6 md:py-4 py-2 items-baseline">
         <?php include "Logo.php"; ?>
         <ul class="flex ml-auto sm:w-fit w-full sm:gap-40 sm:my-0 my-4 mx-auto text-lg">
-            <li class="flex-1 text-center"><a href="/"><button data-link="" class="header-link disabled:underline hover:text-primary disabled:cursor-default cursor-pointer transition-all">Главная</button></a></li>
-            <li class="flex-1 text-center"><a href="/catalog"><button data-link="catalog" class="header-link disabled:underline hover:text-primary disabled:cursor-default cursor-pointer transition-all">Каталог</button></a></li>
-            <li class="flex-1 text-center"><a href="/authors"><button data-link="authors" class="header-link disabled:underline hover:text-primary cursor-pointer disabled:cursor-default transition-all">Авторы</button></a></li>
+            <li class="flex-1 text-center"><a href="/"><button data-link="" class="header-link hover:text-primary cursor-pointer transition-all">Главная</button></a></li>
+            <li class="flex-1 text-center"><a href="/catalog"><button data-link="catalog" class="header-link hover:text-primary cursor-pointer transition-all">Каталог</button></a></li>
+            <li class="flex-1 text-center"><a href="/authors"><button data-link="authors" class="header-link hover:text-primary cursor-pointer transition-all">Авторы</button></a></li>
         </ul>
     </div>
 </header>

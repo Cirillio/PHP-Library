@@ -1,11 +1,6 @@
 <?php
-require_once 'autoload.php';
-require "config/database.php";
-session_start();
 
-use controllers\CartController;
-
-if (!isset($_SESSION['user_id'])) {
+if (!$AUTH) {
     http_response_code(401);
     echo json_encode(["message" => "Пользователь не авторизован"]);
     header("Location: /login");
@@ -13,7 +8,6 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 $user_id = $_SESSION['user_id'];
-$cartController = new CartController($pdo, $user_id);
 
 
 $action = $_GET['action'] ?? null;

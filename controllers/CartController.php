@@ -40,23 +40,19 @@ class CartController
                     throw new Exception('ALREADY_IN_CART');
                 }
 
-                // $response["success"] = true;
-                // $response["message"] = "Книга успешно добавлена в корзину";
                 $response = $this->cartRepository->AddToCart($book_id, $this->user);
                 http_response_code(201);
             } catch (Exception $e) {
-                // $response["success"] = false;
                 $response = $e->getMessage();
                 if ($e->getMessage() === 'ALREADY_IN_CART') {
-                    http_response_code(409); // Conflict
+                    http_response_code(409);
                 } else {
-                    http_response_code(500); // Internal Server Error
+                    http_response_code(500);
                 }
             } finally {
                 echo json_encode($response);
             }
         } else {
-            // $response["success"] = false;
             $response = "Неверный запрос";
             http_response_code(405);
             echo json_encode($response);
@@ -83,24 +79,19 @@ class CartController
                 if (!$existingItem) {
                     throw new Exception('NOT_IN_CART');
                 }
-
-                // $response["success"] = true;
-                // $response["message"] = "Книга успешно удалена из корзины";
                 $response = $this->cartRepository->RemoveFromCart($book_id, $this->user);
                 http_response_code(200);
             } catch (Exception $e) {
-                // $response["success"] = false;
                 $response = $e->getMessage();
                 if ($e->getMessage() === 'NOT_IN_CART') {
-                    http_response_code(404); // Not Found
+                    http_response_code(404);
                 } else {
-                    http_response_code(500); // Internal Server Error
+                    http_response_code(500);
                 }
             } finally {
                 echo json_encode($response);
             }
         } else {
-            // $response["success"] = false;
             $response = "Неверный запрос";
             http_response_code(405);
             echo json_encode($response);
@@ -112,14 +103,11 @@ class CartController
         header('Content-Type: application/json');
         $response = null;
         try {
-            // $response["success"] = true;
-            // $response["message"] = "Корзина";
             $response = $this->cartRepository->GetCart($this->user);
             http_response_code(200);
         } catch (Exception $e) {
-            // $response["success"] = false;
             $response = $e->getMessage();
-            http_response_code(500); // Internal Server Error
+            http_response_code(500);
         } finally {
             echo json_encode($response);
         }
@@ -130,14 +118,11 @@ class CartController
         header('Content-Type: application/json');
         $response = null;
         try {
-            // $response["success"] = true;
-            // $response["message"] = "Сумма корзины";
             $response = $this->cartRepository->GetTotal($this->user);
             http_response_code(200);
         } catch (Exception $e) {
-            // $response["success"] = false;
             $response = $e->getMessage();
-            http_response_code(500); // Internal Server Error
+            http_response_code(500);
         } finally {
             echo json_encode($response);
         }

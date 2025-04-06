@@ -1,11 +1,32 @@
 <?php
-// Получаем URI запроса
+session_start();
+
+require_once 'autoload.php';
+require_once 'config/config.php';
+
+use config\Database;
+use models\CurrentUser;
+use controllers\RegisterController;
+use controllers\LoginController;
+use controllers\BookController;
+use controllers\CartController;
+
+$pdo = Database::getConnection();
+
+$AUTH = checkAuth();
+
+$USER = new CurrentUser($pdo, $_SESSION['user_id'] ?? null);
+
+$registerController = new RegisterController($pdo);
+$loginController = new LoginController($pdo);
+$BookController = new BookController($pdo);
+$cartController = new CartController($pdo, $USER->getId());
+
+
 $request = $_SERVER['REQUEST_URI'];
 
-// Убираем параметры запроса (например, ?id=1), если они есть
 $request = parse_url($request, PHP_URL_PATH);
 
-// Определяем маршруты
 switch ($request) {
     case '/profile':
         require __DIR__ . '/pages/profile.php';
@@ -37,6 +58,6 @@ switch ($request) {
 
     default:
         http_response_code(404);
-        require __DIR__ . '/pages/404.php'; // Страница 404 для всех неизвестных маршрутов
+        require __DIR__ . '/pages/404.php';
         break;
 }

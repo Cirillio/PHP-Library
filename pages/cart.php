@@ -1,17 +1,7 @@
 <?php
-require_once 'autoload.php';
-require 'config/config.php';
-require 'config/database.php';
-
-session_start();
-
-
-
-use models\CurrentUser;
-
-$AUTH = checkAuth();
-
-$USER = $AUTH ? new CurrentUser($pdo, $_SESSION['user_id']) : header("Location: /login");
+if (!$AUTH) {
+    header("Location: /login");
+}
 ?>
 
 <!DOCTYPE html>
@@ -33,6 +23,22 @@ $USER = $AUTH ? new CurrentUser($pdo, $_SESSION['user_id']) : header("Location: 
     <?php include "components/footer.php" ?>
 
     <script src="/public/axios.min.js"></script>
+    <script type="module">
+        import {
+            SetHeaderLinks
+        } from "../public/assets/header.js"
+
+        import {
+            CartController
+        } from "../public/assets/cart/CartController.js"
+
+        document.addEventListener("DOMContentLoaded", async () => {
+            SetHeaderLinks();
+            const cart_controller = new CartController();
+            await cart_controller.InitCartAsync();
+        })
+    </script>
+
 
 </body>
 

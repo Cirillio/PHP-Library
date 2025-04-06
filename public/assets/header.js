@@ -6,10 +6,10 @@ export function SetHeaderLinks() {
   // console.log("Поисковые параметры: " + url.searchParams);
 
   headerLinks.forEach((link) => {
-    link.removeAttribute("disabled");
+    link.classList.remove("underline");
     link.classList.remove("text-primary");
     if (link.dataset.link === currentPage) {
-      link.setAttribute("disabled", true);
+      link.classList.add("underline");
       link.classList.add("text-primary");
     }
   });

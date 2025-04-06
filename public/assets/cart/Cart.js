@@ -14,17 +14,19 @@ export class Cart {
   }
 
   async GetTotalAsync() {
-    await this.SendRequest(cart_request.total)
-      .then(({ data: { total, quantity } }) => {
-        this.setTotals({ total, quantity });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    this.total_element
+      ? await this.SendRequest(cart_request.total)
+          .then(({ data: { total, quantity } }) => {
+            this.setTotals({ total, quantity });
+          })
+          .catch((error) => {
+            console.error(error);
+          })
+      : null;
   }
 
   setTotals({ total, quantity }) {
-    this.total = total;
+    this.total = Number(total);
     this.quantity = quantity;
     this.total_element.textContent = Number(total).toFixed(2);
     this.quantity_element.textContent = quantity;

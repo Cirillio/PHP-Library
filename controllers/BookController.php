@@ -30,7 +30,7 @@ class BookController
             }
         }
 
-        $limit = 8;  // Количество книг на странице
+        $limit = 12;  // Количество книг на странице
         $page = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Текущая страница (по умолчанию 1)
 
         $books = $this->BookRepository->getForCatalog($params, $limit, $page);

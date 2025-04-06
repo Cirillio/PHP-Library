@@ -17,41 +17,41 @@ class CurrentUser
         $this->userController = new UserController($pdo);
         $this->registerController = new RegisterController($pdo);
         $this->user = $this->userController->getUser($user_id);
-        $this->date_registration = $this->registerController->getRegistration($user_id)['date'];
+        $this->date_registration = $this->registerController->getRegistration($user_id)['date'] ?? null;
     }
 
     public function getUsername()
     {
-        return $this->user->username;
+        return $this->user ? $this->user->username : null;
     }
 
     public function getRole()
     {
-        return $this->user->role;
+        return $this->user ? $this->user->role : null;
     }
 
     public function getAvatar()
     {
-        return $this->user->avatar;
+        return $this->user ? $this->user->avatar : null;
     }
 
     public function getId()
     {
-        return $this->user->user_id;
+        return $this->user ? $this->user->user_id : null;
     }
 
     public function getEmail()
     {
-        return $this->user->email;
+        return $this->user ? $this->user->email : null;
     }
 
     public function getPhone()
     {
-        return $this->user->phone;
+        return $this->user ? $this->user->phone : null;
     }
 
     public function getDateRegistration()
     {
-        return $this->date_registration;
+        return $this->user ? $this->date_registration : null;
     }
 }
