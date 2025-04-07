@@ -3,15 +3,18 @@
 namespace controllers;
 
 use repositories\BookRepository;
+use repositories\CartRepository;
 
 class BookController
 {
 
     private $BookRepository;
+    private $CartRepository;
 
     public function __construct($pdo)
     {
         $this->BookRepository = new BookRepository($pdo);
+        $this->CartRepository = new CartRepository($pdo);
     }
 
     // public function getOne($id): Book {}
@@ -43,6 +46,12 @@ class BookController
             'totalPages' => $totalPages,
             'currentPage' => $page
         ];
+    }
+
+    public function getCart($user_id): array
+    {
+        $id_list = array_column($this->CartRepository->GetCart($user_id), 'book_id');
+        return $this->BookRepository->GetForCart($id_list);
     }
 
     // public function create(Book $Book): Book {}

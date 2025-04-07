@@ -45,7 +45,11 @@ class CartRepository
 
     public function GetTotal($user_id)
     {
-        $sql = "SELECT COUNT(*) AS quantity, SUM(price) AS total FROM books WHERE id IN (SELECT book_id FROM cart WHERE user_id = :user_id)";
+        $sql = "SELECT COUNT(*) AS quantity, SUM(b.price) AS total 
+        FROM books b
+        JOIN storage s ON b.id = s.book_id
+        WHERE s.stock > 0
+          AND b.id IN (SELECT book_id FROM cart WHERE user_id = :user_id)";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['user_id' => $user_id]);
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);

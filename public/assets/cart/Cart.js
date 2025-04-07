@@ -2,8 +2,8 @@ import cart_request from "./cart_request.js";
 
 export class Cart {
   constructor() {
-    this.total_element = document.querySelector(".cart-total");
-    this.quantity_element = document.querySelector(".cart-quantity");
+    this.total_element = document.querySelectorAll(".cart-total");
+    this.quantity_element = document.querySelectorAll(".cart-quantity");
     this.total = 0;
     this.quantity = 0;
     this.cart = [];
@@ -28,8 +28,10 @@ export class Cart {
   setTotals({ total, quantity }) {
     this.total = Number(total);
     this.quantity = quantity;
-    this.total_element.textContent = Number(total).toFixed(2);
-    this.quantity_element.textContent = quantity;
+    this.total_element.forEach(
+      (el) => (el.textContent = Number(total).toFixed(2))
+    );
+    this.quantity_element.forEach((el) => (el.textContent = quantity));
   }
 
   ReCalcTotal(action, price) {
@@ -39,8 +41,9 @@ export class Cart {
           quantity: this.quantity + 1,
         }
       : {
-          total: this.total - Number(price),
-          quantity: this.quantity - 1,
+          total:
+            this.total - Number(price) < 0 ? 0 : this.total - Number(price),
+          quantity: this.quantity - 1 < 0 ? 0 : this.quantity - 1,
         };
 
     this.setTotals(totals);

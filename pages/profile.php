@@ -22,7 +22,7 @@ $TITLE = $USER->getUsername() . " | Профиль | PHP Library";
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="/public/logo.svg" type="image/x-icon">
+    <link rel="icon" href="/public/logo.svg" type="image/svg+xml">
     <title>
         <?php echo $TITLE; ?>
     </title>

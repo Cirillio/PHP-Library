@@ -19,7 +19,7 @@ $USER = new CurrentUser($pdo, $_SESSION['user_id'] ?? null);
 
 $registerController = new RegisterController($pdo);
 $loginController = new LoginController($pdo);
-$BookController = new BookController($pdo);
+$bookController = new BookController($pdo);
 $cartController = new CartController($pdo, $USER->getId());
 
 

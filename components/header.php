@@ -1,6 +1,6 @@
 <header>
     <div class="flex justify-end sm:gap-4 xl:px-20 md:px-10 px-2 py-4 shadow-sm">
-        <label class="input mx-auto ">
+        <label class="input mr-auto ">
             <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                 <g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" fill="none" stroke="currentColor">
                     <circle cx="11" cy="11" r="8"></circle>
@@ -11,23 +11,18 @@
         </label>
 
         <?php if ($AUTH): ?>
-            <div class="min-[100px]:hidden sm:flex">
-                <a href="/cart" tabindex="0" role="button" class="btn button btn-ghost">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                    </svg>
-                    <span class="text-nowrap">
-                        Корзина [
-                    </span>
-                    <span class="cart-quantity">
-                        0
-                    </span>
-                    <span>]: </span>
-                    <span class="cart-total">
-                        0
-                    </span>
-                    <span> | ₽</span>
-                </a>
+            <div class=" min-[100px]:hidden sm:flex">
+                <div class="indicator">
+                    <a href="/cart" tabindex="0" role="button" class="btn button btn-ghost">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                        <span class="text-nowrap">
+                            Корзина
+                        </span>
+                    </a>
+                    <span class="indicator-item badge badge-sm lg:badge-md badge-info cart-quantity"></span>
+                </div>
             </div>
 
             <div class="dropdown dropdown-end">
@@ -55,7 +50,7 @@
                 <div class="min-[100px]:hidden sm:flex">
                     <ul
                         tabindex="0"
-                        class="menu menu-md dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow-md border border-base-content">
+                        class="menu menu-md dropdown-content bg-base-100 rounded-md z-1 mt-3 w-52 p-2 shadow-md border border-base-content">
                         <li><a href="/profile">Профиль</a></li>
                         <li><a href="/logout">Выход</a></li>
                     </ul>
@@ -63,7 +58,7 @@
                 <div class="sm:hidden">
                     <ul
                         tabindex="0"
-                        class="menu menu-lg dropdown-content bg-base-100  rounded-box z-1 mt-3 w-52 p-2 shadow-md border border-base-content">
+                        class="menu menu-lg dropdown-content bg-base-100 rounded-md z-1 mt-3 w-52 p-2 shadow-md border border-base-content">
                         <li><a href="../profile">Профиль</a></li>
                         <li><a href="/cart">Корзина</a></li>
                         <li><a href=" /logout">Выход</a></li>

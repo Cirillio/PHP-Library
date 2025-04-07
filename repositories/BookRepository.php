@@ -160,33 +160,32 @@ class BookRepository
         return $result['total'];
     }
 
-    public function GetForCart($id_list): array
+    public function getForCart(array $id_list): array
     {
+        if (empty($id_list)) {
+            return [];
+        }
+
+        $placeholders = implode(',', array_fill(0, count($id_list), '?'));
         $sql = "
-        SELECT 
-            books.id, 
-            books.title, 
-            books.genre, 
-            books.year,
-            books.price, 
-            books.cover_image, 
-            authors.name AS author_name, 
-            authors.id AS author_id,
-            IFNULL(storage.stock, 0) AS stock
-        FROM 
-            books
-        JOIN 
-            authors 
-        ON 
-            books.author_id = authors.id
-        LEFT JOIN 
-            storage
-        ON 
-            books.id = storage.book_id 
-    " . "WHERE books.id IN (:id_list)";
+            SELECT 
+                b.id, 
+                b.title, 
+                b.genre, 
+                b.year,
+                b.price, 
+                b.cover_image, 
+                a.name AS author_name, 
+                a.id AS author_id,
+                IFNULL(s.stock, 0) AS stock
+            FROM books b
+            JOIN authors a ON b.author_id = a.id
+            LEFT JOIN storage s ON b.id = s.book_id
+            WHERE b.id IN ($placeholders)";
 
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute(['id_list' => $id_list]);
+        $stmt->execute($id_list);
+
         $booksData = $stmt->fetchAll();
         $books = array_map(function ($bookData) {
             return new BookCatalog($bookData);
@@ -194,8 +193,6 @@ class BookRepository
 
         return $books;
     }
-
-
 
     public function create(Book $Book): Book
     {

@@ -2,9 +2,10 @@ import { Book } from "../book/Book.js";
 import { Cart } from "./Cart.js";
 
 export class CartController {
-  constructor() {
+  constructor(page = "cart") {
     this.cart = new Cart();
     this.books = [];
+    this.page = page;
   }
 
   async InitCartAsync() {
@@ -20,7 +21,7 @@ export class CartController {
     }
 
     this.books = Array.from(book_elements).map((book) => {
-      const _book = new Book(book, this.cart);
+      const _book = new Book(book, this.cart, this.page);
       _book.UpdateState(books_in_cart);
       return _book;
     });
