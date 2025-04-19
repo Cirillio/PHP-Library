@@ -4,6 +4,7 @@ namespace controllers;
 
 use repositories\BookRepository;
 use repositories\CartRepository;
+use models\Book;
 
 class BookController
 {
@@ -17,24 +18,19 @@ class BookController
         $this->CartRepository = new CartRepository($pdo);
     }
 
-    // public function getOne($id): Book {}
-
-    public function getCatalog(): array
+    public function getOne($id): Book|null
     {
-        $params = [];
-
-        if (isset($_GET['category'])) {
-            $params['category'] = $_GET['category'];
+        if (is_numeric($id)) {
+            return $this->BookRepository->getOne($id) ?? null;
         }
+        return null;
+    }
 
-        foreach ($_GET['filters'] ?? [] as $filterName => $filterValue) {
-            if (!empty($filterValue)) {
-                $params[$filterName] = $filterValue;
-            }
-        }
+    public function getCatalog($params = null): array
+    {
 
         $limit = 12;  // Количество книг на странице
-        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Текущая страница (по умолчанию 1)
+        $page = $params['page'];
 
         $books = $this->BookRepository->getForCatalog($params, $limit, $page);
         $totalBooks = $this->BookRepository->getTotalBooksCount($params);
@@ -52,6 +48,16 @@ class BookController
     {
         $id_list = array_column($this->CartRepository->GetCart($user_id), 'book_id');
         return $this->BookRepository->GetForCart($id_list);
+    }
+
+    public function getYearsPublish(): array
+    {
+        return $this->BookRepository->getUniqueYears();
+    }
+
+    public function getGenres(): array
+    {
+        return $this->BookRepository->getUniqueGenres();
     }
 
     // public function create(Book $Book): Book {}

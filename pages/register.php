@@ -3,6 +3,8 @@
 if ($AUTH) {
     header("Location: /catalog");
 }
+setPageTitle("Регистрация");
+
 ?>
 
 <!DOCTYPE html>
@@ -11,8 +13,7 @@ if ($AUTH) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="../public/logo.svg" type="image/svg+xml">
-    <title>Регистрация | PHP Library</title>
+    = <title><?php echo $TITLE; ?></title>
     <?php include "components/styles.php"; ?>
 
 </head>
@@ -26,10 +27,10 @@ if ($AUTH) {
 
     <main class="h-screen w-full flex items-center justify-center">
 
-        <div class="form-reg flex w-[600px] flex-col rounded-md py-20 border-neutral border-2 text-neutral m-auto">
+        <div class="form-reg flex sm:w-[600px] flex-col rounded-md py-10 sm:py-20 border-neutral border-2 text-neutral m-auto">
             <h1 class="text-3xl font-semibold  mx-auto">Регистрация</h1>
             <a class="w-fit mx-auto text-sm text-secondary hover:underline mt-2 " href="/login">Уже есть аккаунт?</a>
-            <form action="/register_process" method="post" class="mx-32 my-10 flex flex-col gap-4">
+            <form action="/register_process" method="post" class="sm:mx-32 mx-10 sm:my-10 flex flex-col gap-4">
 
                 <section class="relative">
                     <legend class="fieldset-legend text-xl text-neutral font-semibold">Логин</legend>

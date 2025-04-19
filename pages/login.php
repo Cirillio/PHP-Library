@@ -3,7 +3,7 @@
 if ($AUTH) {
     header("Location: /catalog");
 }
-
+setPageTitle("Логин");
 ?>
 
 <!DOCTYPE html>
@@ -12,8 +12,7 @@ if ($AUTH) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="../public/logo.svg" type="image/svg+xml">
-    <title>Авторизация | PHP Library</title>
+    <title> <?php echo $TITLE; ?></title>
     <?php include "components/styles.php"; ?>
 
 </head>
@@ -27,7 +26,7 @@ if ($AUTH) {
 
     <main class="h-screen w-full flex items-center justify-center">
 
-        <div class="form-login flex w-[600px] flex-col rounded-md py-20 border-neutral border-2 text-neutral m-auto">
+        <div class="form-login flex w-fit sm:w-[600px] flex-col rounded-2xl py-20 border-neutral border-2 text-base-content m-auto">
             <h1 class="text-3xl font-semibold  mx-auto">Авторизация</h1>
             <a class="w-fit mx-auto text-sm text-secondary hover:underline mt-2 " href="/register">Еще нет аккаунта?</a>
 
@@ -48,10 +47,10 @@ if ($AUTH) {
             ?>
 
 
-            <form action="/login_process" method="post" class="mx-32 my-10 flex flex-col gap-4">
+            <form action="/login_process" method="post" class="sm:mx-32 mx-10 my-10 flex flex-col gap-4">
 
                 <section class="relative">
-                    <legend class="fieldset-legend text-xl text-neutral font-semibold">Логин</legend>
+                    <legend class="fieldset-legend text-xl text-base-content font-semibold">Логин</legend>
                     <label class="input validator">
                         <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                             <g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" fill="none" stroke="currentColor">
@@ -70,7 +69,7 @@ if ($AUTH) {
 
 
                 <section class="relative">
-                    <legend class="fieldset-legend text-xl text-neutral font-semibold">Пароль</legend>
+                    <legend class="fieldset-legend text-xl text-base-content font-semibold">Пароль</legend>
                     <label id="pass" class="input validator">
                         <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                             <g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" fill="none" stroke="currentColor">
@@ -89,7 +88,7 @@ if ($AUTH) {
                 </section>
 
 
-                <div class="flex justify-between">
+                <div class="flex sm:flex-row flex-col justify-between">
                     <button id="login" disabled class="btn btn-accent mt-6 w-fit mx-auto">Войти</button>
                     <button class="btn btn-error mt-6 w-fit mx-auto">Не помню пароль</button>
                 </div>

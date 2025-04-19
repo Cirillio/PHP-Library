@@ -1,7 +1,6 @@
 <?php
 if (!$AUTH) header("Location: /login");
 
-
 $username = $USER->getUsername();
 $role = $USER->getRole();
 $avatar = $USER->getAvatar();
@@ -10,9 +9,7 @@ $phone = $USER->getPhone();
 $user_id = $USER->getId();
 $date = explode(' ', $USER->getDateRegistration())[0];
 
-$TITLE = $USER->getUsername() . " | Профиль | PHP Library";
-
-
+setPageTitle($USER->getUsername() . " | Профиль");
 
 ?>
 
@@ -22,7 +19,6 @@ $TITLE = $USER->getUsername() . " | Профиль | PHP Library";
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="/public/logo.svg" type="image/svg+xml">
     <title>
         <?php echo $TITLE; ?>
     </title>
@@ -34,14 +30,22 @@ $TITLE = $USER->getUsername() . " | Профиль | PHP Library";
     <?php include "components/header.php" ?>
 
 
-    <main class="h-full w-full flex-col xl:px-20 md:px-10 sm:px-4 px-2 gap-2 py-4 flex-1 items-center flex">
+    <main class="h-full w-full flex-col 2xl:px-60 xl:px-20 md:px-10 sm:px-4 px-2 gap-2 py-4 flex-1 items-center flex">
         <div class="flex w-full md:justify-end justify-between items-center">
             <div class=" md:hidden">
-                <div class="avatar">
-                    <div class="w-16 rounded-xl">
-                        <img src="root/avatars/<?= $avatar ?>" alt="<?= $user_id ?>_<?= $username ?>">
+                <?php if ($avatar): ?>
+                    <div class="avatar">
+                        <div class="w-16 rounded-xl">
+                            <img src="root/avatars/<?= $avatar ?>" alt="<?= $user_id ?>_<?= $username ?>">
+                        </div>
                     </div>
-                </div>
+                <?php else: ?>
+                    <div class="avatar avatar-placeholder">
+                        <div class="bg-neutral text-neutral-content w-16 rounded-xl">
+                            <span class="text-xs"><?= substr($USER->getUsername(), 0, 1) ?></span>
+                        </div>
+                    </div>
+                <?php endif; ?>
             </div>
             <div class="flex sm:flex-row flex-col sm:gap-2 gap-1 items-center">
                 <button class="w-fit btn  btn-primary md:btn-md btn-sm lg:btn-lg">Профиль</button>
@@ -51,11 +55,21 @@ $TITLE = $USER->getUsername() . " | Профиль | PHP Library";
         <div class="min-h-full flex flex-col md:grid grid-cols-2 w-full flex-1 rounded-xl shadow-md bg-base-200">
             <div class="flex md:flex-col bg-base-100 border-4 border-base-200 flex-row-reverse rounded-xl md:gap-4 md:p-4">
                 <div class="min-[100px]:hidden md:flex mx-auto">
-                    <div class="avatar">
-                        <div class="lg:w-32 sm:w-24 w-16 rounded-xl">
-                            <img src="root/avatars/<?= $avatar ?>" alt="<?= $user_id ?>_<?= $username ?>">
+                    <?php if ($avatar): ?>
+
+                        <div class="avatar">
+                            <div class="lg:w-32 sm:w-24 w-16 rounded-xl">
+                                <img src="root/avatars/<?= $avatar ?>" alt="<?= $user_id ?>_<?= $username ?>">
+                            </div>
                         </div>
-                    </div>
+                    <?php else: ?>
+                        <div class="avatar avatar-placeholder">
+                            <div class="bg-neutral text-neutral-content lg:w-32 sm:w-24 w-16 rounded-xl">
+                                <span class="text-3xl"><?= substr($USER->getUsername(), 0, 1) ?></span>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+
                 </div>
                 <div class="space-y-4 rounded-md w-full flex-x-1 md:bg-base-200 md:shadow-md p-4">
                     <ul class="space-y-4 profile-info">
@@ -82,6 +96,7 @@ $TITLE = $USER->getUsername() . " | Профиль | PHP Library";
                             <span class="text-primary"><?= $date ?></span>
                         </li>
                     </ul>
+                    <a href="/logout" class="sm:hidden min-[100px]:flex"><button class="btn btn-sm btn-error">Выход</button></a>
                 </div>
             </div>
             <div class="flex flex-col gap-4 p-4 col-start-2 ">
@@ -100,13 +115,17 @@ $TITLE = $USER->getUsername() . " | Профиль | PHP Library";
         } from "../public/assets/header.js"
 
         import {
+            Cart
+        }
+        from "../public/assets/cart/Cart.js"
+        import {
             CartController
         } from "../public/assets/cart/CartController.js"
 
         document.addEventListener("DOMContentLoaded", async () => {
             SetHeaderLinks();
-            const cart_controller = new CartController();
-            await cart_controller.InitCartAsync();
+            const cart = new Cart("profile");
+            const cart_controller = new CartController(cart);
         })
     </script>
 

@@ -4,10 +4,11 @@ export function SetCategories() {
   const categoryBtns = document.querySelectorAll(".category-btn");
   categoryBtns.forEach((btn) => {
     btn.classList.add("btn-ghost");
-    btn.removeAttribute("disabled");
+    btn.classList.remove("btn-accent");
+
     if (btn.dataset.genre == category) {
       btn.classList.remove("btn-ghost");
-      btn.setAttribute("disabled", true);
+      btn.classList.add("btn-accent");
     }
   });
 }

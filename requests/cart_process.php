@@ -33,6 +33,9 @@ switch ($action) {
         $cartController->getTotal();
         break;
 
+    case "order":
+        break;
+
     case null:
         header("Location: /cart");
         exit;

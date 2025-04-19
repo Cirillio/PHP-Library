@@ -1,3 +1,4 @@
+<link rel="icon" href="/public/logo.ico" type="image/svg+xml">
 <!-- tailwind css -->
 <script src="../public/browser@4.js"></script>
 <!-- темы для daisy ui -->

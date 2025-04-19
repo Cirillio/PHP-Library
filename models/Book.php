@@ -11,7 +11,9 @@ class Book
     private $description;
     private $price;
     private $cover_image;
-    private $author_id; // Только ID автора
+    private $author_name;
+    private $author_id;
+    private $stock;
 
     public function __construct($data)
     {
@@ -23,6 +25,8 @@ class Book
         $this->price = $this->formatPrice($data['price']);
         $this->cover_image = $this->escape($data['cover_image']);
         $this->author_id = $data['author_id'];
+        $this->author_name = $data['author_name'];
+        $this->stock = $data['stock'];
     }
 
     public function getId()
@@ -103,6 +107,16 @@ class Book
     public function setAuthorId($author_id)
     {
         $this->author_id = $author_id;
+    }
+
+    public function getAuthorName()
+    {
+        return $this->author_name;
+    }
+
+    public function getStock()
+    {
+        return $this->stock;
     }
 
 

@@ -4,6 +4,7 @@ namespace repositories;
 
 use models\Book;
 use models\BookCatalog;
+use PDO;
 
 class BookRepository
 {
@@ -26,22 +27,33 @@ class BookRepository
             books.price, 
             books.cover_image, 
             books.author_id,
-
+            authors.name AS author_name, 
+            IFNULL(storage.stock, 0) AS stock
         FROM 
             books
-        WHERE 
-            books.id = :id";
+        JOIN 
+            authors 
+        ON 
+            books.author_id = authors.id
+        LEFT JOIN 
+            storage
+        ON 
+            books.id = storage.book_id 
+        WHERE
+            books.id = :id
+    ";
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['id' => $id]);
-        $book = $stmt->fetchObject(Book::class);
+        $book = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $book = new Book($book);
 
         return $book;
     }
 
     public function getForCatalog($params = null, $limit = 12, $page = 0): array
     {
-
         $sql = "
         SELECT 
             books.id, 
@@ -63,28 +75,50 @@ class BookRepository
             storage
         ON 
             books.id = storage.book_id 
-    ";
+        ";
 
         // Массив для хранения условий и параметров
         $conditions = [];
         $queryParams = [];
 
-        // Добавляем условия в зависимости от переданных параметров
+        // Обработка параметра category
         if (!empty($params['category'])) {
-            $conditions[] = "books.genre = :category";
-            $queryParams['category'] = $params['category'];
+            if (is_array($params['category'])) {
+                // Если category — массив, используем IN
+                $placeholders = implode(',', array_fill(0, count($params['category']), '?'));
+                $conditions[] = "books.genre IN ($placeholders)";
+                $queryParams = array_merge($queryParams, $params['category']);
+            } else {
+                // Если category — строка
+                $conditions[] = "books.genre = ?";
+                $queryParams[] = $params['category'];
+            }
         }
+
+        // Обработка параметра title
         if (!empty($params['title'])) {
-            $conditions[] = "books.title LIKE :title";
-            $queryParams['title'] = '%' . $params['title'] . '%';
+            $conditions[] = "books.title LIKE ?";
+            $queryParams[] = '%' . $params['title'] . '%';
         }
+
+        // Обработка параметра author
         if (!empty($params['author'])) {
-            $conditions[] = "authors.name LIKE :author";
-            $queryParams['author'] = '%' . $params['author'] . '%';
+            $conditions[] = "authors.name LIKE ?";
+            $queryParams[] = '%' . $params['author'] . '%';
         }
+
+        // Обработка параметра year
         if (!empty($params['year'])) {
-            $conditions[] = "books.year = :year";
-            $queryParams['year'] = $params['year'];
+            if (is_array($params['year'])) {
+                // Если year — массив, используем IN
+                $placeholders = implode(',', array_fill(0, count($params['year']), '?'));
+                $conditions[] = "books.year IN ($placeholders)";
+                $queryParams = array_merge($queryParams, $params['year']);
+            } else {
+                // Если year — строка
+                $conditions[] = "books.year = ?";
+                $queryParams[] = $params['year'];
+            }
         }
 
         // Если есть условия, добавляем их в SQL-запрос
@@ -94,14 +128,14 @@ class BookRepository
 
         // Добавляем пагинацию
         $offset = ($page - 1) * $limit;
-        $sql .= " LIMIT :limit OFFSET :offset";
+        $sql .= " LIMIT ? OFFSET ?";
+
+        // Добавляем параметры пагинации
+        $queryParams[] = $limit;
+        $queryParams[] = $offset;
 
         // Подготавливаем и выполняем запрос
         $stmt = $this->pdo->prepare($sql);
-
-        $queryParams['limit'] = $limit;
-        $queryParams['offset'] = $offset;
-
         $stmt->execute($queryParams);
 
         $booksData = $stmt->fetchAll();
@@ -115,36 +149,57 @@ class BookRepository
     public function getTotalBooksCount($params = null): int
     {
         $sql = "
-    SELECT COUNT(*) AS total
-    FROM 
-        books
-    JOIN
-        
-        authors
-    ON
-        books.author_id = authors.id
-    ";
+        SELECT COUNT(*) AS total
+        FROM 
+            books
+        JOIN
+            authors
+        ON
+            books.author_id = authors.id
+        ";
 
         // Массив для хранения условий и параметров
         $conditions = [];
         $queryParams = [];
 
-        // Добавляем условия в зависимости от переданных параметров
+        // Обработка параметра category
         if (!empty($params['category'])) {
-            $conditions[] = "books.genre = :category";
-            $queryParams['category'] = $params['category'];
+            if (is_array($params['category'])) {
+                // Если category — массив, используем IN
+                $placeholders = implode(',', array_fill(0, count($params['category']), '?'));
+                $conditions[] = "books.genre IN ($placeholders)";
+                $queryParams = array_merge($queryParams, $params['category']);
+            } else {
+                // Если category — строка
+                $conditions[] = "books.genre = ?";
+                $queryParams[] = $params['category'];
+            }
         }
+
+        // Обработка параметра title
         if (!empty($params['title'])) {
-            $conditions[] = "books.title LIKE :title";
-            $queryParams['title'] = '%' . $params['title'] . '%';
+            $conditions[] = "books.title LIKE ?";
+            $queryParams[] = '%' . $params['title'] . '%';
         }
+
+        // Обработка параметра author
         if (!empty($params['author'])) {
-            $conditions[] = "authors.name LIKE :author";
-            $queryParams['author'] = '%' . $params['author'] . '%';
+            $conditions[] = "authors.name LIKE ?";
+            $queryParams[] = '%' . $params['author'] . '%';
         }
+
+        // Обработка параметра year
         if (!empty($params['year'])) {
-            $conditions[] = "books.year = :year";
-            $queryParams['year'] = $params['year'];
+            if (is_array($params['year'])) {
+                // Если year — массив, используем IN
+                $placeholders = implode(',', array_fill(0, count($params['year']), '?'));
+                $conditions[] = "books.year IN ($placeholders)";
+                $queryParams = array_merge($queryParams, $params['year']);
+            } else {
+                // Если year — строка
+                $conditions[] = "books.year = ?";
+                $queryParams[] = $params['year'];
+            }
         }
 
         // Если есть условия, добавляем их в SQL-запрос
@@ -152,13 +207,14 @@ class BookRepository
             $sql .= " WHERE " . implode(" AND ", $conditions);
         }
 
-        // Выполняем запрос
+        // Подготавливаем и выполняем запрос
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($queryParams);
 
         $result = $stmt->fetch();
-        return $result['total'];
+        return (int) $result['total'];
     }
+
 
     public function getForCart(array $id_list): array
     {
@@ -193,6 +249,21 @@ class BookRepository
 
         return $books;
     }
+
+    public function getUniqueYears(): array
+    {
+        $sql = "SELECT DISTINCT year FROM books ORDER BY year DESC";
+        $stmt = $this->pdo->query($sql);
+        return $stmt->fetchAll(PDO::FETCH_COLUMN);
+    }
+
+    public function getUniqueGenres(): array
+    {
+        $sql = "SELECT DISTINCT genre FROM books ORDER BY genre ASC";
+        $stmt = $this->pdo->query($sql);
+        return $stmt->fetchAll(PDO::FETCH_COLUMN);
+    }
+
 
     public function create(Book $Book): Book
     {

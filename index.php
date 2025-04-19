@@ -24,7 +24,6 @@ $cartController = new CartController($pdo, $USER->getId());
 
 
 $request = $_SERVER['REQUEST_URI'];
-
 $request = parse_url($request, PHP_URL_PATH);
 
 switch ($request) {
@@ -32,7 +31,10 @@ switch ($request) {
         require __DIR__ . '/pages/profile.php';
         break;
     case '/catalog':
-        require __DIR__ . '/pages/main.php';
+        require __DIR__ . '/pages/catalog.php';
+        break;
+    case '/book':
+        require __DIR__ . '/pages/book.php';
         break;
     case '/login':
         require __DIR__ . '/pages/login.php';
