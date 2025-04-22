@@ -1,0 +1,6 @@
+vendor/
+root/avatars/
+root/books/
+logs/
+.env
+composer.lock

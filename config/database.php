@@ -10,22 +10,29 @@ class Database
     private static $instance = null;
     private $pdo;
 
-    // Конфигурация в приватных константах
-    private const HOST = 'localhost';
-    private const DB_NAME = 'library';
-    private const USER = 'root';
-    private const PASS = '';
-    private const CHARSET = 'utf8mb4';
+    // Свойства для конфигурации
+    private $host;
+    private $dbName;
+    private $user;
+    private $pass;
+    private $charset;
 
     private function __construct()
     {
-        $dsn = "mysql:host=" . self::HOST . ";dbname=" . self::DB_NAME . ";charset=" . self::CHARSET;
+        // Получаем значения из $_ENV
+        $this->host = $_ENV['DB_HOST'] ?? 'localhost';
+        $this->dbName = $_ENV['DB_NAME'] ?? 'library';
+        $this->user = $_ENV['DB_USER'] ?? 'root';
+        $this->pass = $_ENV['DB_PASS'] ?? '';
+        $this->charset = $_ENV['DB_CHARSET'] ?? 'utf8mb4';
+
+        $dsn = "mysql:host={$this->host};dbname={$this->dbName};charset={$this->charset}";
 
         try {
             $this->pdo = new PDO(
                 $dsn,
-                self::USER,
-                self::PASS,
+                $this->user,
+                $this->pass,
                 [
                     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -34,7 +41,6 @@ class Database
                 ]
             );
         } catch (PDOException $e) {
-            // Логирование ошибки
             error_log("Database connection failed: " . $e->getMessage());
             throw new PDOException("Database connection error");
         }
@@ -48,7 +54,6 @@ class Database
         return self::$instance->pdo;
     }
 
-    // Запрещаем клонирование и восстановление
     private function __clone() {}
     public function __wakeup() {}
 }

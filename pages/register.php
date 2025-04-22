@@ -27,13 +27,13 @@ setPageTitle("Регистрация");
 
     <main class="h-screen w-full flex items-center justify-center">
 
-        <div class="form-reg flex sm:w-[600px] flex-col rounded-md py-10 sm:py-20 border-neutral border-2 text-neutral m-auto">
-            <h1 class="text-3xl font-semibold  mx-auto">Регистрация</h1>
+        <div class="form-reg flex sm:w-[600px] flex-col rounded-2xl py-10 sm:py-20 border-neutral border-2 text-base-content m-auto">
+            <h1 class="text-3xl font-semibold   mx-auto">Регистрация</h1>
             <a class="w-fit mx-auto text-sm text-secondary hover:underline mt-2 " href="/login">Уже есть аккаунт?</a>
             <form action="/register_process" method="post" class="sm:mx-32 mx-10 sm:my-10 flex flex-col gap-4">
 
                 <section class="relative">
-                    <legend class="fieldset-legend text-xl text-neutral font-semibold">Логин</legend>
+                    <legend class="fieldset-legend text-xl text-base-content font-semibold">Логин</legend>
                     <label class="input validator">
                         <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                             <g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" fill="none" stroke="currentColor">
@@ -50,7 +50,7 @@ setPageTitle("Регистрация");
 
 
                 <section class="relative">
-                    <legend class="fieldset-legend text-xl text-neutral font-semibold">Почта</legend>
+                    <legend class="fieldset-legend text-xl text-base-content font-semibold">Почта</legend>
                     <label class="input validator">
                         <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                             <g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" fill="none" stroke="currentColor">
@@ -67,7 +67,7 @@ setPageTitle("Регистрация");
 
 
                 <section class="relative">
-                    <legend class="fieldset-legend text-xl text-neutral font-semibold">Пароль</legend>
+                    <legend class="fieldset-legend text-xl text-base-content font-semibold">Пароль</legend>
                     <label id="pass" class="input validator">
                         <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                             <g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" fill="none" stroke="currentColor">

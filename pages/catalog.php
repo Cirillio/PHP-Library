@@ -41,7 +41,7 @@ rsort($books_years);
     <div class="2xl:px-60 xl:px-20 md:px-10 pb-10 sm:px-4 px-1">
         <main data-total-pages="<?= $total_pages ?>" data-current-page="<?= $current_page ?>" class="catalog flex flex-col gap-4 rounded-3xl">
             <div class="gap-2 flex w-full justify-between px-1 py-4 items-center">
-                <h1 class="text-5xl font-semibold text-center text-accent">
+                <h1 class="xl:text-5xl md:text-3xl sm:text-2xl text-xl font-semibold text-center text-accent">
                     Каталог
                 </h1>
                 <div class="lg:hidden min-[100px]:flex">

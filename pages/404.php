@@ -16,18 +16,31 @@ setPageTitle("(404) Страница не найдена");
 <body>
     <?php include "components/header.php";
     ?>
-    <h1>Страница не найдена</h1>
+    <div class=" flex-col items-center justify-center  w-full flex">
+        <picture class="max-h-[600px] flex lg:w-1/3 sm:w-1/2 w-full object-contain object-center">
+            <img src="/public/icons/page-not-found.svg" alt="404" class="w-full h-full">
+        </picture>
+        <div class="flex lg:gap-10 sm:gap-4 gap-2 items-center flex-wrap justify-center my-10 ">
+            <span class="text-error lg:text-3xl sm:text-xl text-md font-bold select-none">Страница не найдена (404)</span>
+            <a href="/" class="btn btn-ghost btn-outline btn-error sm:btn-md btn-sm lg:btn-xl">Вернуться</a>
+        </div>
+    </div>
 
     <?php include "components/footer.php"; ?>
     <script src="/public/axios.min.js"></script>
     <script type="module">
         import {
+            Cart
+        }
+        from "../public/assets/cart/Cart.js"
+
+        import {
             CartController
         } from "../public/assets/cart/CartController.js"
 
         document.addEventListener("DOMContentLoaded", async () => {
-            const cart_controller = new CartController("catalog");
-            await cart_controller.InitCartAsync();
+            const cart = new Cart("catalog");
+            const cart_controller = new CartController(cart);
         })
     </script>
 </body>
