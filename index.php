@@ -20,7 +20,6 @@ session_start();
 $request = htmlspecialchars(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), ENT_QUOTES, 'UTF-8');
 
 try {
-
     $pdo = Database::getConnection();
 } catch (Exception $e) {
     error_log("Failed to initialize application: " . $e->getMessage());
@@ -29,7 +28,7 @@ try {
 }
 $AUTH = checkAuth();
 
-$USER = new CurrentUser($pdo, $_SESSION['user_id'] ?? null);
+$USER = $AUTH ? new CurrentUser($pdo, $_SESSION['user_id']) : null;
 
 $registerController = new RegisterController($pdo);
 $loginController = new LoginController($pdo);
