@@ -1,6 +1,5 @@
 vendor/
-root/avatars/
-root/books/
+root/
 logs/
 .env
 composer.lock
