@@ -1,5 +1,5 @@
 vendor/
-root/
+root
 logs/
 .env
 composer.lock
