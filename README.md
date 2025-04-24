@@ -2,4 +2,4 @@
 Учебный проект на PHP в ТГАСУ
 ### Стек:
 1. HTML
-2. CSS (Tailwind + DaisyUI
+2. CSS (Tailwind + DaisyUI)
