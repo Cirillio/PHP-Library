@@ -3,4 +3,5 @@
 ### Стек:
 1. HTML
 2. CSS (Tailwind + DaisyUI)
-3. JavaScript (Axios) 
+3. JavaScript (Axios)
+4. PHP
