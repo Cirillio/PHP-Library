@@ -5,3 +5,4 @@
 2. CSS (Tailwind + DaisyUI)
 3. JavaScript (Axios)
 4. PHP + composer (autoload + dotenv)
+5. MySQL
