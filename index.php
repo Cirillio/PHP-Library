@@ -3,6 +3,7 @@ ini_set('display_errors', 0); // Отключаем вывод ошибок на
 ini_set('log_errors', 1);     // Включаем логирование ошибок
 ini_set('error_log', __DIR__ . '/logs/error.log'); // Указываем путь к файлу логов
 error_reporting(E_ALL);       // Логируем все типы ошибок
+session_start();
 
 require_once 'vendor/autoload.php';
 require_once 'config/config.php';
@@ -16,11 +17,9 @@ use controllers\LoginController;
 use controllers\BookController;
 use controllers\CartController;
 
-session_start();
 $request = htmlspecialchars(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), ENT_QUOTES, 'UTF-8');
 
 try {
-
     $pdo = Database::getConnection();
 } catch (Exception $e) {
     error_log("Failed to initialize application: " . $e->getMessage());
@@ -29,7 +28,7 @@ try {
 }
 $AUTH = checkAuth();
 
-$USER = new CurrentUser($pdo, $_SESSION['user_id'] ?? null);
+$USER = new CurrentUser($pdo, $_SESSION['user_id']) ?? null;
 
 $registerController = new RegisterController($pdo);
 $loginController = new LoginController($pdo);

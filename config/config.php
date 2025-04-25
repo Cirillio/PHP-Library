@@ -11,9 +11,9 @@ function setPageTitle($_title)
 
 function checkAuth()
 {
-    if (!isset($_SESSION['user_id'])) {
+    if (isset($_SESSION['user_id'])) {
         // header("Location: login");
-        return false;
+        return true;
     }
-    return true;
+    return false;
 }

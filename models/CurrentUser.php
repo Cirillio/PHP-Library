@@ -14,10 +14,12 @@ class CurrentUser
 
     public function __construct($pdo, $user_id)
     {
-        $this->userController = new UserController($pdo);
-        $this->registerController = new RegisterController($pdo);
-        $this->user = $this->userController->getUser($user_id);
-        $this->date_registration = $this->registerController->getRegistration($user_id)['date'] ?? null;
+        if ($user_id) {
+            $this->userController = new UserController($pdo);
+            $this->registerController = new RegisterController($pdo);
+            $this->user = $this->userController->getUser($user_id);
+            $this->date_registration = $this->registerController->getRegistration($user_id)['date'] ?? null;
+        }
     }
 
     public function getUsername()
